@@ -1,0 +1,57 @@
+Index: src/main/resources/templates/export_word.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/templates/export_word.html	(date 1584447190833)
++++ src/main/resources/templates/export_word.html	(date 1584447190833)
+@@ -14,7 +14,6 @@
+     <div class="h1">数据库导出文档</div>
+     <div class="content_box">
+         <form οnsubmit="return false">
+-            {{this.tables}}
+             <ul>
+                 <li>
+                     <span class="li_check">
+@@ -50,28 +49,27 @@
+ <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+ <script src="../static/js/modal_dialog.js"></script>
+ <script>
+-    axios.defaults.withCredentials = true;
+-  var app =  new Vue({
++    new Vue({
+         el: "#app",
+         data: {
+             tables: [],
+             checkData:[]
+         },
+         created: function(){
+-            //this.connect();
++            this.connect();
+         },
+         methods:{
+-            connect: function () {
+-                 axios.get('/selectByTableName')
+-                    .then(function (response) {
+-                        console.log(response.data)
+-                    if (response.data.code == 200) {
+-                        app.tables = response.data.result;
+-                    } else {
+-                        location.href = '/index';
+-                    }
+-                }).catch(function (error) {
+-                });
++            connect:function () {
++                var result;
++                $.ajaxSettings.async = false;
++                $.get('/selectByTableName', null, function (data) {
++                    result = data;
++                });
++                if (result.code == 200) {
++                    this.tables = result.result;
++                }else{
++                    location.href = '/index';
++                }
+             },
+             checkAll : function (event){ // 点击全选事件函数
+                 var checkObj = $('.checkItem'); // 获取所有checkbox项
