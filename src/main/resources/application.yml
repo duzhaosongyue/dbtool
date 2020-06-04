@@ -1,0 +1,13 @@
+
+
+#spring配置
+spring:
+  #视图配置
+  mvc:
+    static-path-pattern: /**
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
+  #静态资源位置
+  resources:
+    static-locations: /WEB-INF/view/
