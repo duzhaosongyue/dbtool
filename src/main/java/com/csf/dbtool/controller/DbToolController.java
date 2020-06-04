@@ -3,11 +3,9 @@ package com.csf.dbtool.controller;
 import com.csf.dbtool.model.DBTable;
 import com.csf.dbtool.model.DatabaseConnection;
 import com.csf.dbtool.model.R;
-import com.csf.dbtool.model.ResultMode;
 import com.csf.dbtool.service.IDBTableService;
 import com.csf.dbtool.util.DBHelperMysql;
 import com.csf.dbtool.util.DocUtil;
-import com.csf.dbtool.util.HttpSessionUtil;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.OutputStream;
 import java.util.List;
 

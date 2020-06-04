@@ -74,7 +74,7 @@ public class DBHelperMysql<T> {
     @SneakyThrows
     public Boolean testConnection(){
         try {
-            getConnection();
+            conn = DriverManager.getConnection(url, user, pwd);
         }catch (Exception e){
             return Boolean.FALSE;
         }
