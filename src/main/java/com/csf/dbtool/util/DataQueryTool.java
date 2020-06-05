@@ -1,7 +1,6 @@
 package com.csf.dbtool.util;
 
 import com.csf.dbtool.dao.IDao;
-import com.csf.dbtool.dao.impl.MysqlDao;
 import com.csf.dbtool.model.Column;
 import com.csf.dbtool.model.DBTable;
 import com.csf.dbtool.model.DatabaseConnection;

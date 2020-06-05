@@ -3,7 +3,6 @@ package com.csf.dbtool.dao.impl;
 import com.csf.dbtool.dao.IDao;
 import com.csf.dbtool.model.Column;
 import com.csf.dbtool.model.DBTable;
-import com.csf.dbtool.model.DatabaseConnection;
 import com.csf.dbtool.model.Index;
 import com.csf.dbtool.util.DBHelper;
 import com.csf.dbtool.util.SQLUtil;
@@ -59,18 +58,4 @@ public class OracleDao implements IDao {
     }
 
 
-    public static void main(String[] args) {
-        DatabaseConnection connection = new DatabaseConnection();
-        connection.setPort(1521);
-        connection.setIp("127.0.0.1");
-        connection.setDatabase(1);
-        connection.setDatabaseName("helowin");
-        connection.setUser("DBTOOL");
-        connection.setPwd("jishuzhai");
-        DBHelper bean = new DBHelper(connection);
-
-        OracleDao dao = new OracleDao();
-        //System.out.println(JSONUtil.toJsonStr(dao.selectTableNameAll(bean)));
-        //System.out.println(JSONUtil.toJsonStr(dao(bean)));
-    }
 }
