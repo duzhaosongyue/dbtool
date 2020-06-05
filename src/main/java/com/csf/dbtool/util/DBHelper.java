@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
-public class DBHelperMysql<T> {
+public class DBHelper<T> {
     // 全局变量
     private Connection conn = null;
     // 创建PreparedStatement对象
@@ -19,7 +19,7 @@ public class DBHelperMysql<T> {
     // 创建ResultSet对象
     private ResultSet rs = null;
     // 连接数据的驱动串
-    private static String className = "com.mysql.jdbc.Driver";
+    private static String className;
     // 连接数据库的URL
     private static String url;
     // 连接数据库的用户
@@ -30,23 +30,25 @@ public class DBHelperMysql<T> {
     private static String databaseName;
 
 
-    public String getDatabaseName(){
+    public String getDatabaseName() {
         return databaseName;
     }
+
     //创建ThreadLocal类对象
     private static ThreadLocal<Connection> threadlocal = new ThreadLocal<>();
 
 
-    public DBHelperMysql(DatabaseConnection connection){
-        this.url = DBConfigUtil.getMysqlConnectionUrl(connection.getIp(), connection.getPort(), connection.getDatabaseName());
+    public DBHelper(DatabaseConnection connection) {
+        this.url = DBConfigUtil.getConnectionUrl(connection);
         this.user = connection.getUser();
         this.pwd = connection.getPwd();
         this.databaseName = connection.getDatabaseName();
+        this.className = connection.getClassName();
+        loadClassName();
     }
 
 
-    // 2. 加载驱动
-    static {
+    private void loadClassName() {
         try {
             // 加载驱动
             Class.forName(className);
@@ -57,7 +59,6 @@ public class DBHelperMysql<T> {
         }
     }
 
-    // 3. 建立连接
 
     /**
      * 建立数据库的连接
@@ -72,10 +73,10 @@ public class DBHelperMysql<T> {
     }
 
     @SneakyThrows
-    public Boolean testConnection(){
+    public Boolean testConnection() {
         try {
             conn = DriverManager.getConnection(url, user, pwd);
-        }catch (Exception e){
+        } catch (Exception e) {
             return Boolean.FALSE;
         }
         if (conn != null && !conn.isClosed()) {
@@ -197,7 +198,7 @@ public class DBHelperMysql<T> {
         return list;
     }
 
-    public List<T> getList(Class<T> tclass, String sql){
+    public List<T> getList(Class<T> tclass, String sql) {
         try {
             return getList(tclass, sql, null);
         } catch (SQLException e) {
@@ -323,6 +324,7 @@ public class DBHelperMysql<T> {
     }
 
     // 8. 关闭数据库资源
+
     /**
      * 关闭数据库资源
      */

@@ -18,7 +18,7 @@ public class HttpSessionUtil {
     }
 
 
-    public static DatabaseConnection getSession(HttpSession session){
+    public static DatabaseConnection getSession(HttpSession session) {
         return (DatabaseConnection) session.getAttribute(CONNECTION_KEY);
     }
 }

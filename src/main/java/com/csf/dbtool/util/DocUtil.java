@@ -19,7 +19,7 @@ public class DocUtil {
 
     private final static String[] COLUMN_NAME = new String[]{"序号", "字段名称", "字段类型", "字段描述", "允许空", "索引"};
 
-    private final static int[] TABLE_COLUMN_WIDTH = new int[]{8, 20, 18, 30, 18,16};
+    private final static int[] TABLE_COLUMN_WIDTH = new int[]{8, 20, 18, 30, 18, 16};
 
     private final static String DOC_TITLE = "数据库结构文档";
 
@@ -42,7 +42,7 @@ public class DocUtil {
     }
 
     @SneakyThrows
-    private static void printDocTitle(Document doc){
+    private static void printDocTitle(Document doc) {
         Paragraph title = new Paragraph(DOC_TITLE);
         title.setAlignment(Element.ALIGN_CENTER);
         title.setSpacingBefore(15);
@@ -58,7 +58,7 @@ public class DocUtil {
 
 
     @SneakyThrows
-    private static void defaultPrint(List<DBTable> dbTables, Document doc){
+    private static void defaultPrint(List<DBTable> dbTables, Document doc) {
         if (dbTables.isEmpty()) {
             Paragraph context = new Paragraph("查询不到数据");
             // 正文格式对齐方式
@@ -71,7 +71,7 @@ public class DocUtil {
 
 
     @SneakyThrows
-    private static Table initTableStyle(){
+    private static Table initTableStyle() {
         //表格设置（列、行）
         Table table = new Table(COLUMN_NUM, LINE_NUM);
         //设置每列所占比例
@@ -93,7 +93,7 @@ public class DocUtil {
     @SneakyThrows
     private static void printTableTitle(Integer index, DBTable dbTable, Document doc) {
         String comment = (index + 1) + "." + dbTable.getTableName();
-        if(dbTable.getTableComment() != null && dbTable.getTableComment().length() > 0){
+        if (dbTable.getTableComment() != null && dbTable.getTableComment().length() > 0) {
             comment = comment + "(" + dbTable.getTableComment() + ")";
         }
         Paragraph paragraphComment = new Paragraph(comment, RtfParagraphStyle.STYLE_HEADING_2);
@@ -103,7 +103,7 @@ public class DocUtil {
     }
 
     @SneakyThrows
-    private static void printGroupIndex(DBTable dbTable, Document doc){
+    private static void printGroupIndex(DBTable dbTable, Document doc) {
         String groupIndex = dbTable.getGroupIndex();
         if (groupIndex != null && groupIndex.length() > 0) {
             doc.add(new Paragraph("组合索引: " + dbTable.getGroupIndex()));
@@ -111,7 +111,7 @@ public class DocUtil {
     }
 
 
-    private static void printTableHeader(Table table){
+    private static void printTableHeader(Table table) {
         for (int i = 0; i < COLUMN_NUM; i++) {
             Cell cell = new Cell(COLUMN_NAME[i]);
             cell.setVerticalAlignment(Element.ALIGN_CENTER);
@@ -121,7 +121,7 @@ public class DocUtil {
     }
 
 
-    private static void printTableContent(Table table,List<Column> columns){
+    private static void printTableContent(Table table, List<Column> columns) {
         if (columns != null) {
             for (int j = 0; j < columns.size(); j++) {
                 Column column = columns.get(j);
@@ -137,7 +137,7 @@ public class DocUtil {
 
 
     @SneakyThrows
-    private static void printTable(Integer index ,DBTable dbTable ,Document doc){
+    private static void printTable(Integer index, DBTable dbTable, Document doc) {
         printTableTitle(index, dbTable, doc);
         Table table = initTableStyle();
         printTableHeader(table);

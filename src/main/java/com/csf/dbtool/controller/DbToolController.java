@@ -4,7 +4,7 @@ import com.csf.dbtool.model.DBTable;
 import com.csf.dbtool.model.DatabaseConnection;
 import com.csf.dbtool.model.R;
 import com.csf.dbtool.service.IDBTableService;
-import com.csf.dbtool.util.DBHelperMysql;
+import com.csf.dbtool.util.DBHelper;
 import com.csf.dbtool.util.DocUtil;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
@@ -26,7 +26,7 @@ public class DbToolController {
     private IDBTableService idbTableService;
 
     @RequestMapping("/")
-    public String connectConfig(){
+    public String connectConfig() {
         return "connect_config";
     }
 
@@ -40,8 +40,8 @@ public class DbToolController {
 
     @RequestMapping("connection")
     @ResponseBody
-    public R connection(DatabaseConnection connection){
-        DBHelperMysql mysql = new DBHelperMysql(connection);
+    public R connection(DatabaseConnection connection) {
+        DBHelper mysql = new DBHelper(connection);
         if (mysql.testConnection()) {
             return R.success("连接成功！");
         } else {
@@ -52,7 +52,7 @@ public class DbToolController {
 
     @ResponseBody
     @GetMapping("selectByTableName")
-    public R selectByTableName(DatabaseConnection connection){
+    public R selectByTableName(DatabaseConnection connection) {
         List<DBTable> dbTables = idbTableService.selectByTableName(connection);
         return R.data(dbTables);
     }
@@ -66,10 +66,10 @@ public class DbToolController {
      */
     @RequestMapping("downloadDoc")
     @SneakyThrows
-    public void downloadDoc(String tableNames, HttpServletResponse response,DatabaseConnection connection){
+    public void downloadDoc(String tableNames, HttpServletResponse response, DatabaseConnection connection) {
         @Cleanup
         OutputStream outputStream = response.getOutputStream();
-        List<DBTable> tables = idbTableService.selectTableNameByTableNames(connection,tableNames);
+        List<DBTable> tables = idbTableService.selectTableNameByTableNames(connection, tableNames);
         response.setContentType("application/msword;charset=GB2312");
         response.setHeader("content-disposition", "attachment;filename=" + java.net.URLEncoder.encode(DocUtil.DOC_NAME, "UTF-8"));
         DocUtil.exportWord(tables, outputStream);

@@ -24,8 +24,8 @@ public class Column {
     private String tableName;
 
 
-    public String getValue(Integer index){
-        switch (index){
+    public String getValue(Integer index) {
+        switch (index) {
             case 0:
                 return getOrderNumber();
             case 1:
