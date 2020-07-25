@@ -52,7 +52,6 @@ public class DBHelper<T> {
         try {
             // 加载驱动
             Class.forName(className);
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("数据库加载驱动出错！");
@@ -72,6 +71,7 @@ public class DBHelper<T> {
         }
     }
 
+
     @SneakyThrows
     public Boolean testConnection() {
         try {
@@ -85,6 +85,7 @@ public class DBHelper<T> {
         }
         return Boolean.FALSE;
     }
+
 
     /**
      * 返回带自增长列的主键值

@@ -1,3 +1,5 @@
+
+
 #spring配置
 spring:
   #视图配置
@@ -9,3 +11,6 @@ spring:
   #静态资源位置
   resources:
     static-locations: /WEB-INF/view/
+
+server:
+  port: 8099

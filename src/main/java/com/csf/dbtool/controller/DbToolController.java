@@ -2,7 +2,6 @@ package com.csf.dbtool.controller;
 
 import com.csf.dbtool.model.DBTable;
 import com.csf.dbtool.model.DatabaseConnection;
-import com.csf.dbtool.model.R;
 import com.csf.dbtool.service.IDBTableService;
 import com.csf.dbtool.util.DBHelper;
 import com.csf.dbtool.util.DocUtil;
@@ -40,21 +39,16 @@ public class DbToolController {
 
     @RequestMapping("connection")
     @ResponseBody
-    public R connection(DatabaseConnection connection) {
+    public Integer connection(DatabaseConnection connection) {
         DBHelper mysql = new DBHelper(connection);
-        if (mysql.testConnection()) {
-            return R.success("连接成功！");
-        } else {
-            return R.fail("连接失败！");
-        }
+        return mysql.testConnection() ? 1 : -1;
     }
 
 
     @ResponseBody
     @GetMapping("selectByTableName")
-    public R selectByTableName(DatabaseConnection connection) {
-        List<DBTable> dbTables = idbTableService.selectByTableName(connection);
-        return R.data(dbTables);
+    public List<DBTable> selectByTableName(DatabaseConnection connection) {
+        return idbTableService.selectByTableName(connection);
     }
 
 

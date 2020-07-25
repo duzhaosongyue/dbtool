@@ -20,7 +20,7 @@ public class DBTableServiceImpl implements IDBTableService{
      * @return
      */
     public List<DBTable> selectByTableName(DatabaseConnection connection) {
-        return DataQueryTool.selectByTableName(getDao(connection.getDatabase()), connection);
+        return DataQueryTool.selectByTableName(connection.getDao(), connection);
     }
 
 
@@ -31,16 +31,8 @@ public class DBTableServiceImpl implements IDBTableService{
      * @return
      */
     public List<DBTable> selectTableNameByTableNames(DatabaseConnection connection, String tableNames) {
-        return DataQueryTool.selectTableNameByTableNames(getDao(connection.getDatabase()), connection, tableNames);
+        return DataQueryTool.selectTableNameByTableNames(connection.getDao(), connection, tableNames);
     }
 
 
-    private IDao getDao(Integer database) {
-        if (database == 0) {
-            return new MysqlDao();
-        } else if (database == 1) {
-            return new OracleDao();
-        }
-        return null;
-    }
 }
