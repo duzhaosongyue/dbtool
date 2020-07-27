@@ -1,6 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -9,16 +8,15 @@
     <meta name="description" content="dbtool-数据库文档生成工具,通过对数据库连接信息配置可以直接生成数据库的结构文档。
 			  其内容包括：表名、表注释、字段、类型、长度、字段描述、索引、组合索引等。
 			  通过生成的文档可以快速了解数据库的结构。"/>
-    <link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
-    <link type="text/css" rel="stylesheet" href="../static/css/common.css"/>
-    <link type="text/css" rel="stylesheet" href="../static/css/export.css"/>
+    <link rel="stylesheet" th:href="@{../../css/common.css}"/>
+    <link rel="stylesheet" th:href="@{../../css/export.css}"/>
 </head>
 
 <body>
 <div class="container" id="app">
     <div class="h1">数据库导出文档</div>
     <div class="content_box">
-        <form οnsubmit="return false">
+        <form οnsubmit="return false" id="default_form">
             <ul>
                 <li>
                     <span class="li_check">
@@ -42,72 +40,72 @@
             </div>
         </form>
     </div>
+
+    <!--隐藏表单-->
+    <form action="/downloadDoc" method="post" id="downloadDoc">
+        <div style="display: none">
+            <input type="text" class="form-control" name="tableNames" id="tableNames">
+            <input type="text" class="form-control" name="ip"  v-model="bean.ip">
+            <input type="text" class="form-control" name="port" v-model="bean.port">
+            <input type="text" class="form-control" name="user" v-model="bean.user">
+            <input type="text" class="form-control" name="pwd" v-model="bean.pwd">
+            <input type="text" class="form-control" name="database" v-model="bean.database">
+            <input type="text" class="form-control" name="databaseName" v-model="bean.databaseName">
+        </div>
+    </form>
 </div>
-<!--隐藏表单-->
-<form action="/downloadDoc" method="post" id="downloadDoc">
-    <div style="float: right;">
-        <input type="hidden" class="form-control" name="tableNames" id="tableNames">
-        <input type="hidden" class="form-control" name="ip" value="${bean.ip}" id="ip">
-        <input type="hidden" class="form-control" name="port" value="${bean.port}" id="port">
-        <input type="hidden" class="form-control" name="user" value="${bean.user}" id="user">
-        <input type="hidden" class="form-control" name="pwd" value="${bean.pwd}" id="pwd">
-        <input type="hidden" class="form-control" name="database" value="${bean.database}" id="database">
-        <input type="hidden" class="form-control" name="databaseName" value="${bean.databaseName}" id="databaseName">
-    </div>
-</form>
-<script src="http://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
-        crossorigin="anonymous"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
-<script src="static/js/vue.js" type="text/javascript" charset="utf-8"></script>
-<script src="static/js/modal_dialog.js"></script>
-<script src="static/js/common.js"></script>
-<script>
+</body>
+
+<script type="text/javascript" th:src="@{../../js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:src="@{../../js/vue.js}"></script>
+<script type="text/javascript" th:src="@{../../js/modal_dialog.js}"></script>
+<script type="text/javascript" th:src="@{../../js/common.js}"></script>
+
+<script th:inline="javascript">
+    const model_bean = [[${bean}]];
     new Vue({
         el: "#app",
         data: {
             tables: [],
             checkData: [],
-            ip: "",
-            port: "",
-            user: "",
-            pwd: "",
-            database: "",
-            databaseName: ""
+            bean:{
+                ip: "",
+                port: "",
+                user: "",
+                pwd: "",
+                database: "",
+                databaseName: ""
+            }
         },
         created: function () {
+            this.bean = model_bean;
             this.initTable();
         },
         methods: {
             initTable: function () {
-                this.tables = asyncGet("selectByTableName", {
-                    "ip": $("#ip").val(),
-                    "port": $("#port").val(),
-                    "user": $("#user").val(),
-                    "pwd": $("#pwd").val(),
-                    "database": $("#database").val(),
-                    "databaseName": $("#databaseName").val()
-                });
+                this.tables = asyncGet("selectByTableName", this.bean);
             },
+
             checkAll: function (event) { // 点击全选事件函数
-                var checkObj = $('.checkItem'); // 获取所有checkbox项
+                const checkObj = $('.checkItem'); // 获取所有checkbox项
                 if (event.target.checked) { // 判定全选checkbox的勾选状态
-                    for (var i = 0; i < checkObj.length; i++) {
+                    for (let i = 0; i < checkObj.length; i++) {
                         if (!checkObj[i].checked) { // 将未勾选的checkbox选项push到绑定数组中
                             this.checkData.push(checkObj[i].value);
                         }
                     }
+
                 } else { // 如果是去掉全选则清空checkbox选项绑定数组
                     this.checkData = [];
                 }
             },
             downloadDoc: function () {
-                var tableNames = this.checkData;
+                const tableNames = this.checkData;
                 if (tableNames.length < 1) {
                     showAlert('info', '请选择至少一张表！');
                     return;
                 }
-                $('#tableNames').val(tableNames);
+                $("#tableNames").val(tableNames)
                 $('#downloadDoc').submit();
             },
             interceptStr: function (value) {
@@ -123,8 +121,8 @@
     })
 
     //禁止表单提交
-    var form = document.getElementsByTagName('form')[0];
-    form.addEventListener('submit', function (e) {
+    const default_form = document.getElementsByTagName('form')[0];
+    default_form.addEventListener('submit', function (e) {
         e.preventDefault();
     });
 
@@ -141,5 +139,3 @@
         })
     }
 </script>
-</body>
-</html>

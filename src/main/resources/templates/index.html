@@ -1,6 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="utf-8">
     <title>数据库文档生成工具</title>
@@ -8,9 +7,8 @@
     <meta name="description" content="dbtool-数据库文档生成工具,通过对数据库连接信息配置可以直接生成数据库的结构文档。
 			  其内容包括：表名、表注释、字段、类型、长度、字段描述、索引、组合索引等。
 			  通过生成的文档可以快速了解数据库的结构。"/>
-    <link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
-    <link type="text/css" rel="stylesheet" href="../static/css/connect.css"/>
-    <link type="text/css" rel="stylesheet" href="../static/css/common.css"/>
+    <link rel="stylesheet" th:href="@{../../css/common.css}"/>
+    <link rel="stylesheet" th:href="@{../../css/connect.css}"/>
 </head>
 <body>
 <div id="app" class="container">
@@ -57,12 +55,10 @@
     </div>
 </div>
 </body>
-<script src="http://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
-        crossorigin="anonymous"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="static/js/vue.js" type="text/javascript" charset="utf-8"></script>
-<script src="static/js/modal_dialog.js"></script>
-<script src="static/js/common.js"></script>
+<script type="text/javascript" th:src="@{../../js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:src="@{../../js/vue.js}"></script>
+<script type="text/javascript" th:src="@{../../js/modal_dialog.js}"></script>
+<script type="text/javascript" th:src="@{../../js/common.js}"></script>
 <script>
     new Vue({
         el: "#app",

@@ -26,14 +26,14 @@ public class DbToolController {
 
     @RequestMapping("/")
     public String connectConfig() {
-        return "connect_config";
+        return "index";
     }
 
 
     @RequestMapping("list")
     public String list(DatabaseConnection connection, Model model) {
         model.addAttribute("bean", connection);
-        return "export_word";
+        return "list";
     }
 
 
