@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-
 <head>
     <meta charset="utf-8">
     <title>数据库文档生成工具</title>
@@ -45,7 +44,7 @@
     <form action="/downloadDoc" method="post" id="downloadDoc">
         <div style="display: none">
             <input type="text" class="form-control" name="tableNames" id="tableNames">
-            <input type="text" class="form-control" name="ip"  v-model="bean.ip">
+            <input type="text" class="form-control" name="ip" v-model="bean.ip">
             <input type="text" class="form-control" name="port" v-model="bean.port">
             <input type="text" class="form-control" name="user" v-model="bean.user">
             <input type="text" class="form-control" name="pwd" v-model="bean.pwd">
@@ -62,13 +61,17 @@
 <script type="text/javascript" th:src="@{../../js/common.js}"></script>
 
 <script th:inline="javascript">
+
+    //读取model中的值
     const model_bean = [[${bean}]];
-    new Vue({
+
+    //vue
+    const app = new Vue({
         el: "#app",
         data: {
             tables: [],
             checkData: [],
-            bean:{
+            bean: {
                 ip: "",
                 port: "",
                 user: "",
@@ -85,20 +88,20 @@
             initTable: function () {
                 this.tables = asyncGet("selectByTableName", this.bean);
             },
-
+            //全选
             checkAll: function (event) { // 点击全选事件函数
-                const checkObj = $('.checkItem'); // 获取所有checkbox项
+                const checkValue = $('.checkItem'); // 获取所有checkbox项
                 if (event.target.checked) { // 判定全选checkbox的勾选状态
-                    for (let i = 0; i < checkObj.length; i++) {
-                        if (!checkObj[i].checked) { // 将未勾选的checkbox选项push到绑定数组中
-                            this.checkData.push(checkObj[i].value);
+                    for (let i = 0; i < checkValue.length; i++) {
+                        if (!checkValue[i].checked) { // 将未勾选的checkbox选项push到绑定数组中
+                            this.checkData.push(checkValue[i].value);
                         }
                     }
-
                 } else { // 如果是去掉全选则清空checkbox选项绑定数组
                     this.checkData = [];
                 }
             },
+            //下载文档
             downloadDoc: function () {
                 const tableNames = this.checkData;
                 if (tableNames.length < 1) {
@@ -108,12 +111,14 @@
                 $("#tableNames").val(tableNames)
                 $('#downloadDoc').submit();
             },
+            //截取过长的字符串
             interceptStr: function (value) {
                 if (value.length <= 25) {
                     return value;
                 }
                 return value.substring(0, 25) + "...";
             },
+            //返回首页
             returnIndex: function () {
                 location.href = "/";
             }

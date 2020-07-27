@@ -1,0 +1,14 @@
+#服务配置
+server:
+  servlet:
+    encoding:
+      #设置response和request编码为utf-8
+      force-response: true
+      force-request: true
+  port: 80
+
+#数据库驱动配置
+db:
+  config-driver:
+    mysql: com.mysql.cj.jdbc.Driver
+    oracle: oracle.jdbc.OracleDriver

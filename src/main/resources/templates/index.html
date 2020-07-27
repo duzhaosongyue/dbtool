@@ -87,7 +87,7 @@
                         "database": this.database,
                         "databaseName": this.databaseName
                     });
-                    showAlert(result == 1 ? 'info' : 'error', result == 1 ? "连接成功！":"连接失败");
+                    showAlert(result == 1 ? 'info' : 'error', result == 1 ? "连接成功！" : "连接失败");
                 }
                 this.buttonStatus = 1;
             },
@@ -134,8 +134,8 @@
         }
     })
 
-    var form = document.getElementsByTagName('form')[0];
-    form.addEventListener('submit', function (e) {
+    const default_form = document.getElementsByTagName('form')[0];
+    default_form.addEventListener('submit', function (e) {
         e.preventDefault();
     });
 
