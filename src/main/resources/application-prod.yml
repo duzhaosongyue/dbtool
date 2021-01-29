@@ -5,7 +5,7 @@ server:
       #设置response和request编码为utf-8
       force-response: true
       force-request: true
-  port: 80
+  port: 8000
 
 #数据库驱动配置
 db:

@@ -7,9 +7,11 @@ import com.csf.dbtool.model.Index;
 import com.csf.dbtool.util.DBHelper;
 import com.csf.dbtool.util.SQLUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 @Slf4j
 public class OracleDao implements IDao {
 
