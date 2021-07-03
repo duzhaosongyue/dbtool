@@ -4,23 +4,45 @@ import lombok.*;
 
 /****
  * 数据表字段属性
+ * @author fuping
  */
 @Getter
 @Setter
 public class Column {
-    //序号
+
+    /****
+     * 序号
+     */
     private String orderNumber;
-    //字段名称
+
+    /****
+     * 字段名称
+     */
     private String columnName;
-    //字段类型
+
+    /****
+     * 字段名称
+     */
     private String columnType;
-    //字段描述
+
+    /****
+     * 字段描述
+     */
     private String columnComment;
-    //允许空
+
+    /****
+     * 允许空
+     */
     private String isNullable;
-    //索引
+
+    /****
+     * 索引
+     */
     private String indexName;
 
+    /****
+     * 表名称
+     */
     private String tableName;
 
 

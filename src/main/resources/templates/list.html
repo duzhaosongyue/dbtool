@@ -7,8 +7,8 @@
     <meta name="description" content="dbtool-数据库文档生成工具,通过对数据库连接信息配置可以直接生成数据库的结构文档。
 			  其内容包括：表名、表注释、字段、类型、长度、字段描述、索引、组合索引等。
 			  通过生成的文档可以快速了解数据库的结构。"/>
-    <link rel="stylesheet" th:href="@{../../css/common.css}"/>
-    <link rel="stylesheet" th:href="@{../../css/export.css}"/>
+    <link rel="stylesheet" th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/css/common.css'}"/>
+    <link rel="stylesheet" th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/css/export.css'}"/>
 </head>
 
 <body>
@@ -54,11 +54,10 @@
     </form>
 </div>
 </body>
-
-<script type="text/javascript" th:src="@{../../js/jquery-3.2.1.min.js}"></script>
-<script type="text/javascript" th:src="@{../../js/vue.js}"></script>
-<script type="text/javascript" th:src="@{../../js/modal_dialog.js}"></script>
-<script type="text/javascript" th:src="@{../../js/common.js}"></script>
+<script type="text/javascript" th:src="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/js/jquery-3.2.1.min.js'}"></script>
+<script type="text/javascript" th:src="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/js/vue.js'}"></script>
+<script type="text/javascript" th:src="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/js/modal_dialog.js'}"></script>
+<script type="text/javascript" th:src="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/js/common.js'}"></script>
 
 <script th:inline="javascript">
 

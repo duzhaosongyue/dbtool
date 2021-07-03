@@ -7,8 +7,8 @@
     <meta name="description" content="dbtool-数据库文档生成工具,通过对数据库连接信息配置可以直接生成数据库的结构文档。
 			  其内容包括：表名、表注释、字段、类型、长度、字段描述、索引、组合索引等。
 			  通过生成的文档可以快速了解数据库的结构。"/>
-    <link rel="stylesheet" th:href="@{../../css/common.css}"/>
-    <link rel="stylesheet" th:href="@{../../css/connect.css}"/>
+    <link rel="stylesheet" th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/css/common.css'}"/>
+    <link rel="stylesheet" th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/css/connect.css'}"/>
 </head>
 <body>
 <div id="app" class="container">
@@ -55,10 +55,10 @@
     </div>
 </div>
 </body>
-<script type="text/javascript" th:src="@{../../js/jquery-3.2.1.min.js}"></script>
-<script type="text/javascript" th:src="@{../../js/vue.js}"></script>
-<script type="text/javascript" th:src="@{../../js/modal_dialog.js}"></script>
-<script type="text/javascript" th:src="@{../../js/common.js}"></script>
+<script type="text/javascript" th:src="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/js/jquery-3.2.1.min.js'}"></script>
+<script type="text/javascript" th:src="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/js/vue.js'}"></script>
+<script type="text/javascript" th:src="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/js/modal_dialog.js'}"></script>
+<script type="text/javascript" th:src="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/js/common.js'}"></script>
 <script>
     new Vue({
         el: "#app",
@@ -67,7 +67,7 @@
             port: 3306,
             databaseName: "bladex",
             user: "root",
-            pwd: "~wow1VSlol2",
+            pwd: "jishuzhai",
             databaseType: ["MYSQL", "Oracle"],
             database: 0,
             severName: "",
@@ -114,9 +114,9 @@
                 return this.checkParameter();
             },
             checkParameter: function () {
-                var ip_reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
-                var domain_name_reg = /^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/
-                var port_reg = /^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/;
+                const ip_reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+                const domain_name_reg = /^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/;
+                const port_reg = /^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/;
                 if (!ip_reg.test(this.ip) || !domain_name_reg.test(this.ip)) {
                     showAlert('info', '请输入正确的域名或ip！');
                     return false;
@@ -135,6 +135,7 @@
     })
 
     const default_form = document.getElementsByTagName('form')[0];
+
     default_form.addEventListener('submit', function (e) {
         e.preventDefault();
     });

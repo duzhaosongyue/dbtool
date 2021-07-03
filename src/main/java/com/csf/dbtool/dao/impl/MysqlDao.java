@@ -11,10 +11,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * 基于mysql的实现
+ * @author fuping
+ */
 @Repository
 @Slf4j
 public class MysqlDao implements IDao {
 
+    @Override
     public List<DBTable> selectTableNameByTableNames(DBHelper dbHelper, String tableNames) {
 
         String sql = "SELECT table_name as tableName,table_comment as tableComment,null as groupIndex FROM information_schema.TABLES WHERE" +
@@ -27,6 +32,7 @@ public class MysqlDao implements IDao {
     }
 
 
+    @Override
     public List<DBTable> selectTableNameAll(DBHelper dbHelper) {
         String sql = "SELECT table_name as tableName,table_comment as tableComment,null as groupIndex FROM information_schema.TABLES WHERE" +
                 " table_schema = '" + dbHelper.getDatabaseName() + "'";
@@ -38,6 +44,7 @@ public class MysqlDao implements IDao {
     }
 
 
+    @Override
     public List<Column> selectColumnByTableName(DBHelper dbHelper, String tableNames) {
         String sql = "SELECT table_name as tableName,ordinal_position AS orderNumber,column_name AS columnName,column_type AS columnType,column_comment " +
                 "AS columnComment,is_nullable AS isNullable, null as indexName " +
@@ -49,6 +56,7 @@ public class MysqlDao implements IDao {
     }
 
 
+    @Override
     public List<Index> selectIndexByTableName(DBHelper dbHelper, String tableNames) {
         String sql = "SELECT a.table_name as tableName,a.index_name as indexName,a.stat_description as columnName FROM " +
                 "mysql.`innodb_index_stats` a WHERE a.`database_name` = '" + dbHelper.getDatabaseName() + "' " +

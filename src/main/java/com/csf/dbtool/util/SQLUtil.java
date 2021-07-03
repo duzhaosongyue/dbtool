@@ -1,5 +1,8 @@
 package com.csf.dbtool.util;
 
+/**
+ * @author fuping
+ */
 public class SQLUtil {
 
     /****
@@ -11,9 +14,11 @@ public class SQLUtil {
         String[] p = parm.split(",");
         String result = "'";
         for (int i = 0; i < p.length; i++) {
-            if (i == 0)
+            if (i == 0) {
                 result = new StringBuilder().append("'").append(p[i]).append("'").toString();
-            else result = new StringBuilder().append(result).append(",'").append(p[i]).append("'").toString();
+            } else {
+                result = new StringBuilder().append(result).append(",'").append(p[i]).append("'").toString();
+            }
         }
         return result;
     }

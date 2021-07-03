@@ -11,6 +11,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * 基于oracle的实现
+ * @author fuping
+ */
 @Repository
 @Slf4j
 public class OracleDao implements IDao {

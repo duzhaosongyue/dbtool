@@ -331,8 +331,9 @@ public class DBHelper<T> {
      */
     public void close() {
         try {
-            if (rs != null)
+            if (rs != null) {
                 rs.close();
+            }
         } catch (SQLException e) {
             rs = null;
             e.printStackTrace();
@@ -345,8 +346,9 @@ public class DBHelper<T> {
             psts = null;
             e.printStackTrace();
         }
-        if (conn != null)
+        if (conn != null) {
             conn = null;
+        }
     }
 }
 

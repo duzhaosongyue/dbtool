@@ -2,6 +2,9 @@ package com.csf.dbtool.util;
 
 import com.csf.dbtool.model.DatabaseConnection;
 
+/**
+ * @author fuping
+ */
 public class DBConfigUtil {
 
     public static String MYSQL_CONNECTION_URL = "jdbc:mysql://MYSQL_IP_PORT/MYSQL_DATABASE_NAME?serverTimezone=UTC&useUnicode=true&charaterEncoding=utf-8&useSSL=false";

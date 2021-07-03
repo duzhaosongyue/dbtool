@@ -1,8 +1,5 @@
 package com.csf.dbtool.service.impl;
 
-import com.csf.dbtool.dao.IDao;
-import com.csf.dbtool.dao.impl.MysqlDao;
-import com.csf.dbtool.dao.impl.OracleDao;
 import com.csf.dbtool.model.DBTable;
 import com.csf.dbtool.model.DatabaseConnection;
 import com.csf.dbtool.service.IDBTableService;
@@ -11,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author fuping
+ */
 @Service
 public class DBTableServiceImpl implements IDBTableService{
 
@@ -19,6 +19,7 @@ public class DBTableServiceImpl implements IDBTableService{
      * @param connection  连接信息
      * @return
      */
+    @Override
     public List<DBTable> selectByTableName(DatabaseConnection connection) {
         return DataQueryTool.selectByTableName(connection);
     }
@@ -30,6 +31,7 @@ public class DBTableServiceImpl implements IDBTableService{
      * @param tableNames   表名
      * @return
      */
+    @Override
     public List<DBTable> selectTableNameByTableNames(DatabaseConnection connection, String tableNames) {
         return DataQueryTool.selectTableNameByTableNames(connection, tableNames);
     }

@@ -2,6 +2,10 @@ package com.csf.dbtool.common;
 
 import org.springframework.beans.factory.annotation.Value;
 
+/**
+ * 公共常量
+ * @author fuping
+ */
 public class SystemConstant {
 
     public static String MYSQL_CLASS_NAME = "com.mysql.cj.jdbc.Driver";

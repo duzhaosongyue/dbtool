@@ -7,22 +7,47 @@ import com.csf.dbtool.dao.impl.OracleDao;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 数据库连接配置
+ * @author fuping
+ */
 @Getter
 @Setter
 public class DatabaseConnection {
 
+    /****
+     * 数据库 0 mysql 1 oracle
+     */
     private Integer database;
 
+    /****
+     * 数据库服务IP
+     */
     private String ip;
 
+    /****
+     * 数据库服务端口
+     */
     private Integer port;
 
+    /****
+     * 用户名称
+     */
     private String user;
 
+    /****
+     * 密码
+     */
     private String pwd;
 
+    /****
+     * 数据库名称
+     */
     private String databaseName;
 
+    /****
+     * 数据库连接驱动
+     */
     private String className;
 
     public String getClassName() {

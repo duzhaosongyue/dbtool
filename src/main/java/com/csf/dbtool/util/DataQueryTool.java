@@ -8,6 +8,9 @@ import com.csf.dbtool.model.Index;
 
 import java.util.List;
 
+/**
+ * @author fuping
+ */
 public class DataQueryTool {
 
     /****
