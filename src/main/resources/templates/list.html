@@ -112,10 +112,10 @@
             },
             //截取过长的字符串
             interceptStr: function (value) {
-                if (value.length <= 25) {
-                    return value;
+                if (value && value.length > 25) {
+                    return value.substring(0, 25) + "...";
                 }
-                return value.substring(0, 25) + "...";
+                return value;
             },
             //返回首页
             returnIndex: function () {

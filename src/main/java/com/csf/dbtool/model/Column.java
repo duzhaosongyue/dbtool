@@ -60,8 +60,9 @@ public class Column {
                 return getIsNullable();
             case 5:
                 return getIndexName();
+            default:
+                return "";
         }
-        return "";
     }
 
 }

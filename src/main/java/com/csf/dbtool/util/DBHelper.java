@@ -39,11 +39,11 @@ public class DBHelper<T> {
 
 
     public DBHelper(DatabaseConnection connection) {
-        this.url = DBConfigUtil.getConnectionUrl(connection);
-        this.user = connection.getUser();
-        this.pwd = connection.getPwd();
-        this.databaseName = connection.getDatabaseName();
-        this.className = connection.getClassName();
+        url = DBConfigUtil.getConnectionUrl(connection);
+        user = connection.getUser();
+        pwd = connection.getPwd();
+        databaseName = connection.getDatabaseName();
+        className = connection.getClassName();
         loadClassName();
     }
 
@@ -66,6 +66,7 @@ public class DBHelper<T> {
         //一次请求一个连接对象
         conn = threadlocal.get();
         if (conn == null || conn.isClosed()) {
+            DriverManager.setLoginTimeout(1);
             conn = DriverManager.getConnection(url, user, pwd);
             threadlocal.set(conn);
         }
@@ -75,6 +76,7 @@ public class DBHelper<T> {
     @SneakyThrows
     public Boolean testConnection() {
         try {
+            DriverManager.setLoginTimeout(1);
             conn = DriverManager.getConnection(url, user, pwd);
         } catch (Exception e) {
             return Boolean.FALSE;
@@ -106,10 +108,11 @@ public class DBHelper<T> {
         // 返回带有主键值的结果集
         rs = psts.getGeneratedKeys();
         // 返回自增长主键值
-        if (rs.next())
+        if (rs.next()) {
             return rs.getLong(1);
-        else
+        } else {
             return -1;
+        }
     }
 
     /**
@@ -170,10 +173,11 @@ public class DBHelper<T> {
         rs = psts.executeQuery();
 
         // 结果集是否存在数据
-        if (rs.next())
+        if (rs.next()) {
             return rs.getObject(1);
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -289,10 +293,11 @@ public class DBHelper<T> {
      * @throws SQLException
      */
     private void setParameters(Object... objs) throws SQLException {
-        if (objs != null)
+        if (objs != null) {
             for (int i = 0; i < objs.length; i++) {
                 psts.setObject(i + 1, objs[i]);
             }
+        }
     }
 
     /**
@@ -340,8 +345,9 @@ public class DBHelper<T> {
         }
 
         try {
-            if (psts != null)
+            if (psts != null) {
                 psts.close();
+            }
         } catch (SQLException e) {
             psts = null;
             e.printStackTrace();

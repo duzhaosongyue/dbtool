@@ -63,9 +63,9 @@
     new Vue({
         el: "#app",
         data: {
-            ip: "127.0.0.1",
-            port: 3306,
-            databaseName: "bladex",
+            ip: "192.168.0.126",
+            port: "3306",
+            databaseName: "brief_plus",
             user: "root",
             pwd: "jishuzhai",
             databaseType: ["MYSQL", "Oracle"],
@@ -74,6 +74,21 @@
             buttonStatus: 1
         },
         created: function () {
+        },
+        watch: {
+            "database": function () {
+                if (this.database == 0) {
+                    this.port = 3306;
+                    this.databaseName = "brief_plus";
+                    this.user = "root";
+                    this.pwd = "jishuzhai";
+                } else if(this.database == 1) {
+                    this.port = 1521;
+                    this.databaseName = "helowin";
+                    this.user = "test";
+                    this.pwd = "test";
+                }
+            }
         },
         methods: {
             testConnect: function (obj) {
@@ -117,9 +132,11 @@
                 const ip_reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
                 const domain_name_reg = /^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/;
                 const port_reg = /^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/;
-                if (!ip_reg.test(this.ip) || !domain_name_reg.test(this.ip)) {
-                    showAlert('info', '请输入正确的域名或ip！');
-                    return false;
+                if (!ip_reg.test(this.ip)) {
+                    if (!domain_name_reg.test(this.ip)) {
+                        showAlert('info', '请输入正确的域名或ip！');
+                        return false;
+                    }
                 }
                 if (!port_reg.test(this.port)) {
                     showAlert("info", '请输入正确的端口！');
