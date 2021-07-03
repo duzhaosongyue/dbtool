@@ -7,9 +7,14 @@ dbtool-数据库文档生成工具,通过对数据库连接信息配置可以直
 
 可以直接使用的包百度网盘下载: https://pan.baidu.com/s/1nTxYnmDNwafcaMmAbpIZxw  密码: rp9l
 
-运行jar包
+jar包运行:
 
      java -jar dbtool-0.0.1-SNAPSHOT.jar
+
+docker运行:
+
+       docker pull registry.cn-shanghai.aliyuncs.com/duzhaosongyue/dbtool:v1
+       docker run -d -p 8000:8000 --name dbtool registry.cn-shanghai.aliyuncs.com/duzhaosongyue/dbtool:v1
 
 默认访问地址:  http://localhost:8000
 
