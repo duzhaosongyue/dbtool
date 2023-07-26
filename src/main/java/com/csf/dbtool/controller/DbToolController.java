@@ -2,7 +2,7 @@ package com.csf.dbtool.controller;
 
 import com.csf.dbtool.model.DBTable;
 import com.csf.dbtool.model.DatabaseConnection;
-import com.csf.dbtool.service.IDBTableService;
+import com.csf.dbtool.service.IDbTableService;
 import com.csf.dbtool.util.DBHelper;
 import com.csf.dbtool.util.DocUtil;
 import lombok.Cleanup;
@@ -25,7 +25,7 @@ import java.util.List;
 public class DbToolController {
 
     @Resource
-    private IDBTableService idbTableService;
+    private IDbTableService idbTableService;
 
     @RequestMapping("/")
     public String connectConfig() {
@@ -70,7 +70,6 @@ public class DbToolController {
         response.setContentType("application/msword;charset=GB2312");
         response.setHeader("content-disposition", "attachment;filename=" + java.net.URLEncoder.encode(DocUtil.DOC_NAME, "UTF-8"));
         DocUtil.exportWord(tables, outputStream);
-
     }
 
 }

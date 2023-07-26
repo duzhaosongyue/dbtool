@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author fuping
  */
-public interface IDBTableService {
+public interface IDbTableService {
 
     /*****
      * 查询mysql数据库所有表

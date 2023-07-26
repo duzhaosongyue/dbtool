@@ -39,11 +39,13 @@ public class OracleDao implements IDao {
         return tables;
     }
 
+
+
     @Override
     public List<Column> selectColumnByTableName(DBHelper dbHelper, String tableNames) {
         String sql = "select A.COLUMN_ID as orderNumber, A.COLUMN_NAME as columnName,CONCAT(concat(A.DATA_TYPE, '('),CONCAT(A.DATA_LENGTH, ')')) as columnType,A.NULLABLE as  isNullable,B.COMMENTS as columnComment,A.TABLE_NAME as tableName,null as indexName from user_tab_columns A " +
                 "LEFT JOIN user_col_comments B on B.TABLE_NAME = A.TABLE_NAME and A.COLUMN_NAME = B.COLUMN_NAME" +
-                " where A.TABLE_NAME in (" + SQLUtil.sqlForIn(tableNames) + ")";
+                " where A.TABLE_NAME in (" + SQLUtil.sqlForIn(tableNames) + ") order by orderNumber";
         log.info("oracle selectColumnByTableName SQL:{}", sql);
         List<Column> columns = dbHelper.getList(Column.class, sql);
         dbHelper.close();

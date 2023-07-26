@@ -2,7 +2,7 @@ package com.csf.dbtool.service.impl;
 
 import com.csf.dbtool.model.DBTable;
 import com.csf.dbtool.model.DatabaseConnection;
-import com.csf.dbtool.service.IDBTableService;
+import com.csf.dbtool.service.IDbTableService;
 import com.csf.dbtool.util.DataQueryTool;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @author fuping
  */
 @Service
-public class DBTableServiceImpl implements IDBTableService{
+public class DbTableServiceImpl implements IDbTableService {
 
     /*****
      * 查询mysql数据库所有表

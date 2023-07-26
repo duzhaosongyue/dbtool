@@ -7,19 +7,19 @@
     <meta name="description" content="dbtool-数据库文档生成工具,通过对数据库连接信息配置可以直接生成数据库的结构文档。
 			  其内容包括：表名、表注释、字段、类型、长度、字段描述、索引、组合索引等。
 			  通过生成的文档可以快速了解数据库的结构。"/>
-    <link rel="stylesheet" th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/css/common.css'}"/>
-    <link rel="stylesheet" th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/css/connect.css'}"/>
+    <link rel="stylesheet" th:href="@{../../css/common.css}"/>
+    <link rel="stylesheet" th:href="@{../../css/connect.css}"/>
 </head>
 <body>
 <div id="app" class="container">
-    <div class="h1">创建数据库连接</div>
+    <div class="h1">数据库文档生成工具</div>
     <div class="content_box">
         <form οnsubmit="return false">
             <div class="sql_type">
-                <span>数据库:</span>
+                <span>数据库类型:</span>
                 <div class="select_box">
                     <select v-model="database" class="select_list">
-                        <option value="">请选择数据库</option>
+                        <option value="">请选择数据库类型</option>
                         <option v-for="(item, index) in databaseType" :value="index">{{item}}</option>
                     </select>
                 </div>
@@ -34,8 +34,12 @@
                     <input placeholder="请输入端口号" v-model="port"/>
                 </li>
                 <li>
-                    <span>数据库名称(服务名):</span>
-                    <input placeholder="请输入数据库名称" v-model="databaseName"/>
+                    <span>数据库(服务名/所有者):</span>
+                    <input placeholder="请输入数据库" v-model="databaseName"/>
+                </li>
+                <li v-if="database==3">
+                    <span>schema:</span>
+                    <input placeholder="请输入schema" v-model="schema"/>
                 </li>
                 <li>
                     <span>用户名：</span>
@@ -55,40 +59,26 @@
     </div>
 </div>
 </body>
-<script type="text/javascript" th:src="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/js/jquery-3.2.1.min.js'}"></script>
-<script type="text/javascript" th:src="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/js/vue.js'}"></script>
-<script type="text/javascript" th:src="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/js/modal_dialog.js'}"></script>
-<script type="text/javascript" th:src="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/js/common.js'}"></script>
+<script type="text/javascript" th:src="@{../../js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:src="@{../../js/vue.js}"></script>
+<script type="text/javascript" th:src="@{../../js/modal_dialog.js}"></script>
+<script type="text/javascript" th:src="@{../../js/common.js}"></script>
 <script>
     new Vue({
         el: "#app",
         data: {
-            ip: "192.168.0.126",
-            port: "3306",
-            databaseName: "brief_plus",
-            user: "root",
-            pwd: "jishuzhai",
-            databaseType: ["MYSQL", "Oracle"],
+            ip: "",
+            port: "",
+            databaseName: "",
+            schema: "",
+            user: "",
+            pwd: "",
+            databaseType: ["MYSQL", "Oracle", "达梦", "postgresql"],
             database: 0,
             severName: "",
             buttonStatus: 1
         },
         created: function () {
-        },
-        watch: {
-            "database": function () {
-                if (this.database == 0) {
-                    this.port = 3306;
-                    this.databaseName = "brief_plus";
-                    this.user = "root";
-                    this.pwd = "jishuzhai";
-                } else if(this.database == 1) {
-                    this.port = 1521;
-                    this.databaseName = "helowin";
-                    this.user = "test";
-                    this.pwd = "test";
-                }
-            }
         },
         methods: {
             testConnect: function (obj) {
@@ -100,9 +90,10 @@
                         "user": this.user,
                         "pwd": this.pwd,
                         "database": this.database,
-                        "databaseName": this.databaseName
+                        "databaseName": this.databaseName,
+                        "schema": this.schema,
                     });
-                    showAlert(result == 1 ? 'info' : 'error', result == 1 ? "连接成功！" : "连接失败");
+                    showAlert(result === 1 ? 'info' : 'error', result == 1 ? "连接成功！" : "连接失败");
                 }
                 this.buttonStatus = 1;
             },
@@ -115,10 +106,11 @@
                         "user": this.user,
                         "pwd": this.pwd,
                         "database": this.database,
-                        "databaseName": this.databaseName
+                        "databaseName": this.databaseName,
+                        "schema": this.schema
                     });
                     if (result == 1) {
-                        location.href = '/list?ip=' + this.ip + "&port=" + this.port + '&user=' + this.user + '&pwd=' + this.pwd + '&database=' + this.database + '&databaseName=' + this.databaseName;
+                        location.href = '/list?ip=' + this.ip + "&port=" + this.port + '&user=' + this.user + '&pwd=' + this.pwd + '&database=' + this.database + '&databaseName=' + this.databaseName + "&schema=" + this.schema;
                     } else {
                         showAlert('error', "连接失败！");
                     }
@@ -129,14 +121,12 @@
                 return this.checkParameter();
             },
             checkParameter: function () {
-                const ip_reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
-                const domain_name_reg = /^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/;
-                const port_reg = /^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/;
-                if (!ip_reg.test(this.ip)) {
-                    if (!domain_name_reg.test(this.ip)) {
-                        showAlert('info', '请输入正确的域名或ip！');
-                        return false;
-                    }
+                var ip_reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
+                var domain_name_reg = /^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/
+                var port_reg = /^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/;
+                if (!ip_reg.test(this.ip) || !domain_name_reg.test(this.ip)) {
+                    showAlert('info', '请输入正确的域名或ip！');
+                    return false;
                 }
                 if (!port_reg.test(this.port)) {
                     showAlert("info", '请输入正确的端口！');
@@ -146,13 +136,18 @@
                     showAlert("info", "用户名和密码不能为空！");
                     return false;
                 }
+                if (this.database == 3) {
+                    if (this.schema == '') {
+                        showAlert("info", "schema不能为空！");
+                        return false;
+                    }
+                }
                 return true;
             }
         }
     })
 
     const default_form = document.getElementsByTagName('form')[0];
-
     default_form.addEventListener('submit', function (e) {
         e.preventDefault();
     });

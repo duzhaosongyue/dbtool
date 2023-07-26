@@ -12,3 +12,5 @@ db:
   config-driver:
     mysql: com.mysql.cj.jdbc.Driver
     oracle: oracle.jdbc.OracleDriver
+    dm: dm.jdbc.driver.DmDriver
+    postgresql: org.postgresql.Driver

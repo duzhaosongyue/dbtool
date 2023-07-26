@@ -24,12 +24,12 @@ public class DBTable {
     private String tableComment;
 
     /****
-     * 表的数据列
-     */
-    private List<Column> columns;
-
-    /****
      * 组合索引
      */
     private String groupIndex;
+
+    /****
+     * 表的数据列
+     */
+    private List<Column> columns;
 }

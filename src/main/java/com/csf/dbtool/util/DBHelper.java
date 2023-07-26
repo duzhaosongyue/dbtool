@@ -1,5 +1,6 @@
 package com.csf.dbtool.util;
 
+import com.csf.dbtool.common.SystemConstant;
 import com.csf.dbtool.model.DatabaseConnection;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ public class DBHelper<T> {
     // 创建ResultSet对象
     private ResultSet rs = null;
     // 连接数据的驱动串
-    private static String className;
+
     // 连接数据库的URL
     private static String url;
     // 连接数据库的用户
@@ -29,6 +30,11 @@ public class DBHelper<T> {
     // 连接数据库的名称
     private static String databaseName;
 
+    private String schema;
+
+    public String getSchema() {
+        return schema;
+    }
 
     public String getDatabaseName() {
         return databaseName;
@@ -39,22 +45,36 @@ public class DBHelper<T> {
 
 
     public DBHelper(DatabaseConnection connection) {
-        url = DBConfigUtil.getConnectionUrl(connection);
+        url = GetConnectionInfo.getConnectionUrl(connection);
         user = connection.getUser();
         pwd = connection.getPwd();
         databaseName = connection.getDatabaseName();
-        className = connection.getClassName();
-        loadClassName();
+        schema = connection.getSchema();
+        loadClassName(connection.getDatabase());
     }
 
 
-    private void loadClassName() {
+    private void loadClassName(int database) {
         try {
-            // 加载驱动
-            Class.forName(className);
+            Class.forName(getClassName(database));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            System.out.println("数据库加载驱动出错！");
+            log.error("数据库加载驱动出错！");
+        }
+    }
+
+    private String getClassName(int database) {
+        switch (database) {
+            case 0:
+                return SystemConstant.MYSQL_CLASS_NAME;
+            case 1:
+                return SystemConstant.ORACLE_CLASS_NAME;
+            case 2:
+                return SystemConstant.DM_CLASS_NAME;
+            case 3:
+                return SystemConstant.POSTGRESQL_CLASS_NAME;
+            default:
+                return "";
         }
     }
 

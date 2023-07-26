@@ -48,7 +48,7 @@ public class MysqlDao implements IDao {
     public List<Column> selectColumnByTableName(DBHelper dbHelper, String tableNames) {
         String sql = "SELECT table_name as tableName,ordinal_position AS orderNumber,column_name AS columnName,column_type AS columnType,column_comment " +
                 "AS columnComment,is_nullable AS isNullable, null as indexName " +
-                "FROM information_schema.COLUMNS WHERE table_schema = '" + dbHelper.getDatabaseName() + "' AND table_name in (" + SQLUtil.sqlForIn(tableNames) + ")";
+                "FROM information_schema.COLUMNS WHERE table_schema = '" + dbHelper.getDatabaseName() + "' AND table_name in (" + SQLUtil.sqlForIn(tableNames) + ") order by orderNumber ";
         log.info("selectColumnByTableName SQL:{}", sql);
         List<Column> columns = dbHelper.getList(Column.class, sql);
         dbHelper.close();
