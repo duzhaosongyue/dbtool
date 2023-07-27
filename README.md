@@ -9,7 +9,7 @@ dbtool-数据库文档生成工具,通过对数据库连接信息配置可以直
 
 jar包运行:
 
-     java -jar dbtool-0.0.1-SNAPSHOT.jar
+     java -jar dbtool-1.0.0.4.jar
 
 docker运行:
 
