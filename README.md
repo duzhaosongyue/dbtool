@@ -1,11 +1,11 @@
 # dbtool
 dbtool-数据库文档生成工具,通过对数据库连接信息配置可以直接生成数据库的结构文档。其内容包括：表名、表注释、字段、类型、长度、字段描述、索引、组合索引等。
->目前支持mysql5.6、5.7、8.0和oracle11g。
+>目前支持mysql5.6、5.7、8.0、oracle11g、达梦数据库、postgresql数据库。
 需要jdk1.8以上的环境支持。
 
-演示地址: http://www.duzhaosongyue.com:8010
+演示地址: http://www.duzhaosongyue.com:8000
 
-可以直接使用的包百度网盘下载: https://pan.baidu.com/s/1nTxYnmDNwafcaMmAbpIZxw  密码: rp9l
+可以直接使用的包百度网盘下载: 链接: https://pan.baidu.com/s/1DjVXbt2fCm4P3fxYggFZ3A 提取码: rt2g
 
 jar包运行:
 
@@ -13,8 +13,8 @@ jar包运行:
 
 docker运行:
 
-       docker pull registry.cn-shanghai.aliyuncs.com/duzhaosongyue/dbtool:v1
-       docker run -d -p 8000:8000 --name dbtool registry.cn-shanghai.aliyuncs.com/duzhaosongyue/dbtool:v1
+       docker pull docker pull duzhaosongyue/dbtool:v1.0.0.4
+       docker run -d -p 8000:8000 --name dbtool duzhaosongyue/dbtool:v1.0.0.4
 
 默认访问地址:  http://localhost:8000
 
