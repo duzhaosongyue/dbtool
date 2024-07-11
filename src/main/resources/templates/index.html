@@ -49,6 +49,10 @@
                     <span>密码:</span>
                     <input placeholder="请输入密码" type="password" v-model="pwd"/>
                 </li>
+                <li>
+                    <span>记住连接数据:</span>
+                    <input type="checkbox" v-model="rememberData"/>
+                </li>
             </ul>
             <div class="button_box">
                 <button :disabled="buttonStatus == 0" @click="testConnect(this)">测试连接</button>
@@ -76,9 +80,41 @@
             databaseType: ["MYSQL", "Oracle", "达梦", "postgresql"],
             database: "",
             severName: "",
-            buttonStatus: 1
+            buttonStatus: 1,
+            rememberData: false,
         },
-        created: function () {
+        created() {
+            if (localStorage.getItem('database')) {
+                this.ip = localStorage.getItem('ip');
+                this.port = localStorage.getItem('port');
+                this.user = localStorage.getItem('user');
+                this.pwd = localStorage.getItem('pwd');
+                this.database = localStorage.getItem('database');
+                this.databaseName = localStorage.getItem('databaseName');
+                this.schema = localStorage.getItem('schema');
+                this.rememberData = localStorage.getItem('rememberData');
+            }
+        },
+        watch: {
+            database(val) {
+                if (localStorage.getItem('database' + val)) {
+                    this.ip = localStorage.getItem('ip' + val);
+                    this.port = localStorage.getItem('port' + val);
+                    this.user = localStorage.getItem('user' + val);
+                    this.pwd = localStorage.getItem('pwd' + val);
+                    this.databaseName = localStorage.getItem('databaseName' + val);
+                    this.schema = localStorage.getItem('schema' + val);
+                    this.rememberData = localStorage.getItem('rememberData' + val);
+                }else {
+                    this.ip = "";
+                    this.port = "";
+                    this.user = "";
+                    this.pwd = "";
+                    this.databaseName = "";
+                    this.schema = "";
+                    this.rememberData = "";
+                }
+            }
         },
         methods: {
             testConnect: function (obj) {
@@ -93,7 +129,7 @@
                         "databaseName": this.databaseName,
                         "schema": this.schema,
                     });
-                    showAlert(result === 1 ? 'info' : 'error', result == 1 ? "连接成功！" : "连接失败");
+                    showAlert(result === 1 ? 'info' : 'error', result === 1 ? "连接成功！" : "连接失败");
                 }
                 this.buttonStatus = 1;
             },
@@ -109,7 +145,9 @@
                         "databaseName": this.databaseName,
                         "schema": this.schema
                     });
-                    if (result == 1) {
+                    if (result === 1) {
+                        //记住数据
+                        this.remember_data();
                         location.href = '/list?ip=' + this.ip + "&port=" + this.port + '&user=' + this.user + '&pwd=' + this.pwd + '&database=' + this.database + '&databaseName=' + this.databaseName + "&schema=" + this.schema;
                     } else {
                         showAlert('error', "连接失败！");
@@ -121,10 +159,9 @@
                 return this.checkParameter();
             },
             checkParameter: function () {
-                var ip_reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
-                var domain_name_reg = /^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/
-                var port_reg = /^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/;
-                if (!ip_reg.test(this.ip) || !domain_name_reg.test(this.ip)) {
+                const ip_reg = /^(localhost(?:\.localdomain)?|[0-9]{1,3}(?:\.[0-9]{1,3}){3}|(?:[a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,})$/;
+                const port_reg = /^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/;
+                if (!ip_reg.test(this.ip)) {
                     showAlert('info', '请输入正确的域名或ip！');
                     return false;
                 }
@@ -143,6 +180,41 @@
                     }
                 }
                 return true;
+            },
+            remember_data: function () {
+                if (this.rememberData) {
+                    //存储当前使用的数据
+                    localStorage.setItem('ip', this.ip);
+                    localStorage.setItem('port', this.port);
+                    localStorage.setItem('user', this.user);
+                    localStorage.setItem('pwd', this.pwd);
+                    localStorage.setItem('database', this.database);
+                    localStorage.setItem('databaseName', this.databaseName);
+                    localStorage.setItem('schema', this.schema);
+                    localStorage.setItem('rememberData', this.rememberData);
+                    //根据数据库类型存储一个数据
+                    let index = this.database;
+                    localStorage.setItem('ip' + index, this.ip);
+                    localStorage.setItem('port' + index, this.port);
+                    localStorage.setItem('user' + index, this.user);
+                    localStorage.setItem('pwd' + index, this.pwd);
+                    localStorage.setItem('database' + index, this.database);
+                    localStorage.setItem('databaseName' + index, this.databaseName);
+                    localStorage.setItem('schema' + index, this.schema);
+                    localStorage.setItem('rememberData' + index, this.rememberData);
+                } else {
+                    this.clear_data();
+                }
+            },
+            clear_data: function () {
+                localStorage.removeItem('ip');
+                localStorage.removeItem('port');
+                localStorage.removeItem('user');
+                localStorage.removeItem('pwd');
+                localStorage.removeItem('database');
+                localStorage.removeItem('databaseName');
+                localStorage.removeItem('schema');
+                localStorage.removeItem('rememberData');
             }
         }
     })
