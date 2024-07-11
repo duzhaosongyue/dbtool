@@ -99,6 +99,7 @@ public class DBHelper<T> {
             DriverManager.setLoginTimeout(1);
             conn = DriverManager.getConnection(url, user, pwd);
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
         if (conn != null && !conn.isClosed()) {
