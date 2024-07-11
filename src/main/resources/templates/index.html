@@ -105,7 +105,7 @@
                     this.databaseName = localStorage.getItem('databaseName' + val);
                     this.schema = localStorage.getItem('schema' + val);
                     this.rememberData = localStorage.getItem('rememberData' + val);
-                }else {
+                } else {
                     this.ip = "";
                     this.port = "";
                     this.user = "";
@@ -169,12 +169,12 @@
                     showAlert("info", '请输入正确的端口！');
                     return false;
                 }
-                if (this.user == '' || this.pwd == '') {
+                if (this.user === '' || this.pwd === '') {
                     showAlert("info", "用户名和密码不能为空！");
                     return false;
                 }
-                if (this.database == 3) {
-                    if (this.schema == '') {
+                if (this.database === 3) {
+                    if (this.schema === '') {
                         showAlert("info", "schema不能为空！");
                         return false;
                     }
@@ -215,6 +215,16 @@
                 localStorage.removeItem('databaseName');
                 localStorage.removeItem('schema');
                 localStorage.removeItem('rememberData');
+
+                let index = this.database;
+                localStorage.removeItem('ip' + index);
+                localStorage.removeItem('port' + index);
+                localStorage.removeItem('user' + index);
+                localStorage.removeItem('pwd' + index);
+                localStorage.removeItem('database' + index);
+                localStorage.removeItem('databaseName' + index);
+                localStorage.removeItem('schema' + index);
+                localStorage.removeItem('rememberData' + index);
             }
         }
     })
