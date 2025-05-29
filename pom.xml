@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.csf</groupId>
     <artifactId>dbtool</artifactId>
-    <version>1.0.0.4</version>
+    <version>1.0.0.5</version>
     <name>dbtool</name>
     <packaging>jar</packaging>
     <description>Demo project for Spring Boot</description>

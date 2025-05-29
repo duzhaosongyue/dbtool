@@ -1,9 +1,9 @@
-FROM openjdk:8
+FROM www.zfb-qt.com/jdk:8-debian-11
 # 镜像是从 openjdk:8-jdk-alpin 继承而来的
 VOLUME /root/tmp
 # 表示挂载了 /root/tmp 目录到容器中
 
-ADD target/dbtool-1.0.4.jar apprun.jar
+ADD target/dbtool-1.0.0.5.jar apprun.jar
 # 将bootJar 添加到镜像中根目录下 命令为 apprun.jar
 
 

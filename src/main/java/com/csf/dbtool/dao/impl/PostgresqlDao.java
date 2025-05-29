@@ -27,7 +27,7 @@ public class PostgresqlDao implements IDao {
 
     @Override
     public List<DBTable> selectTableNameByTableNames(DBHelper dbHelper, String tableNames) {
-        String sql = "SELECT relname AS tableName,cast( obj_description ( relfilenode, 'pg_class' ) AS VARCHAR ) AS tableComment,null as groupIndex FROM pg_class c WHERE relkind = 'r' AND relname NOT LIKE 'pg_%' AND relname NOT LIKE 'sql_%' and relname in (" + SQLUtil.sqlForIn(tableNames) + ") and relname in ( SELECT tablename FROM pg_tables WHERE schemaname = '" + dbHelper.getSchema() + "' AND POSITION ( '_2' IN tablename ) = 0 ) ORDER BY relname";
+        String sql = "SELECT relname AS tableName,cast( obj_description ( relfilenode, 'pg_class' ) AS VARCHAR ) AS tableComment,null as groupIndex FROM pg_class c WHERE relkind = 'r' AND relname NOT LIKE 'pg_%' AND relname NOT LIKE 'sql_%' and relname in (" + SQLUtil.sqlForIn(tableNames) + ") and relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = '" + dbHelper.getSchema() + "') ORDER BY relname";
         log.info("selectTableNameByTableNames SQL:{}", sql);
         List<DBTable> tables = dbHelper.getList(DBTable.class, sql);
         //dbHelper.close();
